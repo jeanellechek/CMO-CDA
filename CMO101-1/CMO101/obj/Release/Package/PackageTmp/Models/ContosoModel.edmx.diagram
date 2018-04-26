@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8b3f5f31637a4e57a2ba19f38ba8b867" Name="Diagram1">
+        <EntityTypeShape EntityType="cmoDBModel.caseDetail" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="cmoDBModel.crisisLevel" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="cmoDBModel.efDetail" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="cmoDBModel.situationDetail" Width="1.5" PointX="6" PointY="3" IsExpanded="true" />
+        <AssociationConnector Association="cmoDBModel.FK_situationDetail_crisisLevel" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="cmoDBModel.userDetail" Width="1.5" PointX="0.75" PointY="6.75" />
+        <AssociationConnector Association="cmoDBModel.FK_situationDetail_caseDetail" />
+        <AssociationConnector Association="cmoDBModel.FK_caseDetail_crisisLevel" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

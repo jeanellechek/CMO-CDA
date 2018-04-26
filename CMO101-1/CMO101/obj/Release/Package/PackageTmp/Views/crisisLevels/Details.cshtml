@@ -1,0 +1,27 @@
+﻿@model CMO101.Models.crisisLevel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>crisisLevel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.crisisLevel1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.crisisLevel1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.crisisID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

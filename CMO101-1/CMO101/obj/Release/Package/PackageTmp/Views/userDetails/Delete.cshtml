@@ -1,0 +1,139 @@
+﻿@model CMO101.Models.userDetail
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="wrapper">
+    <div class="sidebar" data-color="blue" data-image="../assets/img/sidebar-1.jpg">
+
+        <div class="logo">
+            <a href="" class="simple-text">
+                <table border="0">
+                    <tr>
+                        <td><img src="http://i67.tinypic.com/2sbogv9.png" /></td>
+                        <td style="text-align:left"> Crisis <br />Management<br />Office</td>
+                    </tr>
+                </table>
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+
+            <ul class="nav">
+                <li>@Html.ActionLink("Home", "Home", "Home", new { area = "" }, null)</li>
+                <li>@Html.ActionLink("Cases", "Index", "caseDetails", new { area = "" }, null)</li>
+                
+                @if (Session["rank"].Equals("Admin"))
+                {
+                    <li class="active">@Html.ActionLink("Users", "Index", "userDetails", new { area = "" }, null)</li>}
+            </ul>
+
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="navbar navbar-transparent navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">person</i>
+                                @HttpContext.Current.Session["name"].ToString()
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Logout", "logout", "Home")</li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="container-fluid">
+
+
+
+                <div class="row">
+
+                    <div class="col-lg col-md-12">
+                        <div class="card">
+                            <div class="card-header" data-background-color="blue">
+                                <h4 class="title">User</h4>
+                                <p class="category">Delete user details here</p>
+                            </div>
+                            <div class="card-content">
+                                <h3>Are you sure you want to delete user (@Html.DisplayFor(model => model.name))?</h3>
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.name)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.name)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.email)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.email)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.password)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.password)
+                                    </dd>
+
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.rank)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => model.rank)
+                                    </dd>
+
+                                </dl>
+
+                                @using (Html.BeginForm())
+        {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Delete" class="btn btn-primary" />
+                            <input type="button" value="Cancel" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "UserDetails" )'" />
+                        </div>
+}
+                            </div>
+
+
+
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+

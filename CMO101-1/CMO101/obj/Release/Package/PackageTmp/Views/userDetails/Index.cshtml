@@ -1,0 +1,139 @@
+﻿@model IEnumerable<CMO101.Models.userDetail>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Content/Scripts/demo.js"></script>
+@if (Session["success"].Equals(1)) //(firstAccess) success=1, fail=None
+{
+    <script>demo.showNotification('top', 'right', 'Changes successful', 'success', 'thumb_up');</script>}
+else if (Session["success"].Equals("None") && Session["firstAccess"].Equals(1)) //(firstAccess) success=1, fail=None
+{
+    <script>demo.showNotification('top', 'right', 'Changes failed', 'danger', 'thumb_down');</script>}
+
+
+@{ //reset to default
+    Session["firstAccess"] = "None";
+    Session["success"] = "None";
+}
+
+<div class="wrapper">
+    <div class="sidebar" data-color="blue" data-image="../assets/img/sidebar-1.jpg">
+
+        <div class="logo">
+            <a href="" class="simple-text">
+                <table border="0">
+                    <tr>
+                        <td><img src="http://i67.tinypic.com/2sbogv9.png" /></td>
+                        <td style="text-align:left"> Crisis <br />Management<br />Office</td>
+                    </tr>
+                </table>
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+
+            <ul class="nav">
+                <li>@Html.ActionLink("Home", "Home", "Home", new { area = "" }, null)</li>
+                <li>@Html.ActionLink("Cases", "Index", "caseDetails", new { area = "" }, null)</li>
+                
+                @if (Session["rank"].Equals("Admin"))
+                {
+                    <li class="active">@Html.ActionLink("Users", "Index", "userDetails", new { area = "" }, null)</li>}
+            </ul>
+
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="navbar navbar-transparent navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">person</i>
+                                @HttpContext.Current.Session["name"].ToString()
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Logout", "logout", "Home")</li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="container-fluid">
+
+
+
+                <div class="row">
+
+                    <div class="col-lg col-md-12">
+                        <div class="card">
+                            <div class="card-header" data-background-color="blue">
+                                <h4 class="title">User</h4>
+                                <p class="category">Manage users here</p>
+                            </div>
+                            <div class="card-content">
+
+                                @Html.ActionLink("Create new user", "Create", new { })
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            Rank
+                                        </th>
+                                        <th>
+                                            Name
+                                        </th>
+                                        <th>
+                                            Email
+                                        </th>
+
+                                        <th></th>
+                                    </tr>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.rank)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.email)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.name }) |
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.name })
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+

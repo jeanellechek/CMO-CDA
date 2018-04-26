@@ -1,0 +1,28 @@
+﻿@Styles.Render("//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css")
+@Styles.Render("~/Content/styles/login.css")
+@Styles.Render("~/Content/styles/material-dashboard.css")
+@Scripts.Render("//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js")
+@Scripts.Render("//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+        <div class="fadeIn first"><br/>
+            <img src="http://i64.tinypic.com/2ufghkz.png" id="icon" alt="User Icon" style="width:40%;"/>
+            <h2>Crisis Management Office</h2>
+        </div>
+
+        @using (Html.BeginForm("CheckUsername", "Home", FormMethod.Post, new { novalidate = "novalidate" }))
+    {
+        @Html.TextBox("EmailAddress", "", new { @class="fadeIn second",@placeholder="Email Address"})
+        @Html.TextBox("Password", "", new { @class="fadeIn third", @placeholder = "Password", type="password"})
+        <input type="submit" class="fadeIn fourth" style="background-color:#0096dc;" value="Log In">
+}
+
+        <div id="formFooter">
+            <font class="underlineHover"> Crisis Management Office.<br /> Copyright 2018 © All Rights Reserved. </font>
+        </div>
+    </div>
+</div>

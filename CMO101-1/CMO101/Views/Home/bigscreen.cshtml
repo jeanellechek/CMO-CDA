@@ -1,0 +1,168 @@
+﻿@using CMO101.Models
+@model dynamic
+
+<head>
+    @Styles.Render("~/Content/styles/bootstrap.min.css")
+    @Scripts.Render("~/Content/scripts/bootstrap.min.js")
+    @Scripts.Render("~/Content/scripts/jquery-3.2.1.min.js")
+    @Styles.Render("~/Content/styles/material-dashboard.css")
+    <style>
+        /*******************************
+        * Does not work properly if "in" is added after "collapse".
+        * Get free snippets on bootpen.com
+        *******************************/
+        .panel-group .panel {
+            border-radius: 0;
+            box-shadow: none;
+            border-color: #EEEEEE;
+        }
+
+        .panel-default > .panel-heading {
+            padding: 0;
+            border-radius: 0;
+            color: #212121;
+            background-color: #FAFAFA;
+            border-color: #EEEEEE;
+        }
+
+        .panel-title {
+            font-size: 14px;
+        }
+
+            .panel-title > a {
+                display: block;
+                padding: 15px;
+                text-decoration: none;
+            }
+
+        .more-less {
+            float: right;
+            color: #212121;
+        }
+
+        .panel-default > .panel-heading + .panel-collapse > .panel-body {
+            border-top-color: #EEEEEE;
+        }
+
+        /* ----- v CAN BE DELETED v ----- */
+
+        .demo {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+
+    <script>
+        function toggleIcon(e) {
+            $(e.target)
+                .prev('.panel-heading')
+                .find(".more-less")
+                .toggleClass('glyphicon-plus glyphicon-minus');
+        }
+        $('.panel-group').on('hidden.bs.collapse', toggleIcon);
+        $('.panel-group').on('shown.bs.collapse', toggleIcon);
+    </script>
+</head>
+<div class="container demo">
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <i class="more-less glyphicon glyphicon-plus"></i>
+                        Advanced Options
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+
+                    @using (Html.BeginForm("bigscreen", "Home", FormMethod.Post, new { novalidate = "novalidate" }))
+                    {
+                        <table style="width:100%;">
+                            <tr>
+                                <td>Search by case :</td>
+                                <td>
+                                    @{List<SelectListItem> listItems = new List<SelectListItem>();}
+                                    @foreach (caseDetail c in Model.caseDwl)
+                                    {
+                                        listItems.Add(new SelectListItem
+                                        {
+                                            Text = @c.description,
+                                            Value = @c.caseID.ToString()
+                                        });
+                                    }
+                                        @Html.DropDownList("keyword", listItems, "-- Select Case --", new { @class = "form-control",@style="width:80%;" })
+
+                                </td>
+                                <td><input class="btn btn-primary" type="submit" value="Search" /></td>
+                            </tr>
+                        </table>
+
+
+
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div><!-- panel-group -->
+    <div id="mapContainer">
+        <div id="map"></div>
+    </div>
+
+</div><!-- container -->
+<script>
+        function initMap() {
+            var uluru = { lat: 1.3521, lng: 103.8198 }; //centralised singapore
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 11.8,
+                center: uluru
+            });
+
+                  @foreach (var c in Model.latLngDetails) {
+        <text>
+            createMarker(@c.initialLat, @c.initialLng, '@(c.caseID)', '@(c.description)', '@(c.location)');
+            </text>
+        }
+
+
+            function createMarker(lat, lng, caseID, description, location1) {
+                pt = new google.maps.LatLng(lat, lng);
+                contentString = "<table border='0'><tr><td colspan='2' style='text-align:center;'><h5>" + description + " (" + caseID+")</h5></td></tr><tr><td width='80px'>Location : </td><td width='200px'>" + location1 + "</td></tr></table>";
+
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString,
+                });
+
+                //marker options
+                marker = new google.maps.Marker({
+                    position: pt,
+                    map: map,
+
+                });
+                
+                //on click, display information of tasks
+                marker.addListener('click', function () {
+                    infowindow.open(map, this);
+                    
+                    
+                });
+            }
+        }
+    
+
+
+
+
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-3g3_FekRbmeL1it-Wh6yT1Yljmak2u8&callback=initMap">
+</script>

@@ -1,0 +1,83 @@
+﻿@model CMO101.Models.situationDetail
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>situationDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.actionToDo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.actionToDo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.casualties)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.casualties)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.damagedProperties)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.damagedProperties)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.unitsDeployed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.unitsDeployed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.caseDetail.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.caseDetail.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.crisisLevel.crisisLevel1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.crisisLevel.crisisLevel1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.recordID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

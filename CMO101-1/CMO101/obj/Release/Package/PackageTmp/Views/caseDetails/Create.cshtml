@@ -1,0 +1,317 @@
+﻿@model CMO101.Models.caseDetail
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+    #map {
+        width:100%;
+    }
+</style>
+
+<div class="wrapper">
+    <div class="sidebar" data-color="blue" data-image="../assets/img/sidebar-1.jpg">
+
+        <div class="logo">
+            <a href="" class="simple-text">
+                <table border="0">
+                    <tr>
+                        <td><img src="http://i67.tinypic.com/2sbogv9.png" /></td>
+                        <td style="text-align:left"> Crisis <br />Management<br />Office</td>
+                    </tr>
+                </table>
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+
+            <ul class="nav">
+                <li>@Html.ActionLink("Home", "Home", "Home", new { area = "" }, null)</li>
+                <li class="active">@Html.ActionLink("Cases", "Index", "caseDetails", new { area = "" }, null)</li>
+       
+                @if (Session["rank"].Equals("Admin"))
+                {
+                    <li>@Html.ActionLink("Users", "Index", "userDetails", new { area = "" }, null)</li>}
+            </ul>
+
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="navbar navbar-transparent navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">person</i>
+                                @HttpContext.Current.Session["name"].ToString()
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Logout", "logout", "Home")</li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="container-fluid">
+
+
+
+                <div class="row">
+
+                    <div class="col-lg col-md-12">
+                        <div class="card">
+                            <div class="card-header" data-background-color="blue">
+                                <h4 class="title">Cases</h4>
+                                <p class="category">Create new case</p>
+                            </div>
+                            <div class="card-content">
+
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-horizontal">
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <table style="width:60%; margin-left:1%;">
+                                            <tr>
+                                                <td width="20%;">Case ID:</td>
+                                                <td>
+                                                    @Html.EditorFor(model => model.caseID, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.caseID, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Description:</td>
+                                                <td>
+                                                    @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Informant Name:</td>
+                                                <td>
+                                                    @Html.EditorFor(model => model.informantName, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.informantName, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Informant Phone:</td>
+                                                <td>
+                                                    @Html.EditorFor(model => model.informantPhone, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.informantPhone, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Case Status:</td>
+                                                <td>
+                                                    @{
+                                                        List<SelectListItem> statItems = new List<SelectListItem>();
+                                                        statItems.Add(new SelectListItem
+                                                        {
+                                                            Text = "Open",
+                                                            Value = "Open",
+                                                            Selected = true
+                                                        });
+                                                        statItems.Add(new SelectListItem
+                                                        {
+                                                            Text = "Closed",
+                                                            Value = "Closed"
+
+                                                        });
+                                                    }
+                                                    @Html.DropDownListFor(model => model.caseStatus, statItems, new { htmlAttributes = new { @class = "form-control" } })
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Crisis Level:</td>
+                                                <td>
+                                                    @{
+                                                        List<SelectListItem> listItems = new List<SelectListItem>();
+                                                        listItems.Add(new SelectListItem
+                                                        {
+                                                            Text = "Monkey",
+                                                            Value = "1"
+                                                        });
+                                                        listItems.Add(new SelectListItem
+                                                        {
+                                                            Text = "Wolf",
+                                                            Value = "2",
+                                                            Selected = true
+                                                        });
+                                                        listItems.Add(new SelectListItem
+                                                        {
+                                                            Text = "Tiger",
+                                                            Value = "3"
+                                                        });
+                                                        listItems.Add(new SelectListItem
+                                                        {
+                                                            Text = "Demon",
+                                                            Value = "4"
+                                                        });
+                                                        listItems.Add(new SelectListItem
+                                                        {
+                                                            Text = "Dragon",
+                                                            Value = "5"
+                                                        });
+                                                    }
+                                                    @Html.DropDownListFor(model => model.crisisLevel, listItems, new { htmlAttributes = new { @class = "form-control" } })
+
+
+
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Location:</td>
+                                                <td>
+
+                                                    @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control", @id = "locationTB" } })
+                                                    @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
+                                                </td>
+                                                <td><input type="button" value="Locate" class="btn btn-primary" onclick="searchAddress()" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td id="map"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><input type="submit" value="Create" class="btn btn-primary" /></td>
+                                            </tr>
+                                            <tr style="visibility:hidden;">
+                                                <td>Lat:</td>
+                                                <td>
+                                                    @Html.EditorFor(model => model.initialLat, new { htmlAttributes = new { @class = "form-control", @id = "xHidCoor" } })
+                                                    @Html.ValidationMessageFor(model => model.initialLat, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                            <tr style="visibility:hidden;">
+                                                <td>Lng:</td>
+                                                <td>
+                                                    @Html.EditorFor(model => model.initialLng, new { htmlAttributes = new { @class = "form-control", @id = "yHidCoor" } })
+                                                    @Html.ValidationMessageFor(model => model.initialLng, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+
+
+                                            <tr style="visibility:hidden;">
+                                                <td>Date Time:</td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.dateTime, new { Value = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss tt") })
+                                                    @Html.ValidationMessageFor(model => model.dateTime, "", new { @class = "text-danger" })
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 18,
+            center: { lat: 1.3483, lng: 103.6831 }
+        });
+        var markerlatLng = new google.maps.LatLng(1.3483,103.6831);
+            var title = 'Nanyang Technological University';
+            var description = 'Current Location';
+            var contentString = '<h3>' + title + '</h3><br/>' + '<p>' + description + '</p>'
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            var marker = new google.maps.Marker({
+                position: markerlatLng,
+                title: title,
+                map: map,
+                draggable: false
+            });
+
+            google.maps.event.addListener(marker, 'click', function () {
+                infowindow.open(map, marker);
+            });
+    }
+
+    function searchAddress() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 18,
+            center: { lat: 1.3483, lng: 103.6831 }
+        });
+        var addressInput = document.getElementById('locationTB').value;
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({ address: addressInput }, function (results, status) {
+
+            if (status == google.maps.GeocoderStatus.OK) {
+
+                var myResult = results[0].geometry.location;
+                var lat = results[0].geometry.location.lat();
+                var lng = results[0].geometry.location.lng();
+                createMarker(myResult);
+
+                map.setCenter(myResult);
+
+                map.setZoom(17);
+                
+                document.getElementById("xHidCoor").value = lat;
+                document.getElementById("yHidCoor").value = lng;
+                return true;
+            }
+            return false;
+        });
+
+    }
+    function createMarker(latlng) {
+
+        if (marker != undefined && marker != '') {
+            marker.setMap(null);
+            marker = '';
+        }
+
+       var marker = new google.maps.Marker({
+            map: map,
+            position: latlng,
+            draggable: true
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function (event) {
+            getReverseGeocodingData(this.getPosition().lat(), this.getPosition().lng());
+
+        });
+    }
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-3g3_FekRbmeL1it-Wh6yT1Yljmak2u8&callback=initMap">
+</script>

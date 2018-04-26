@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cmoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="caseDetail">
+    <Key>
+      <PropertyRef Name="caseID" />
+    </Key>
+    <Property Name="caseID" Type="int" Nullable="false" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="informantName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="informantPhone" Type="int" Nullable="false" />
+    <Property Name="dateTime" Type="datetime" Nullable="false" />
+    <Property Name="location" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="crisisLevel" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="crisisLevel">
+    <Key>
+      <PropertyRef Name="crisisID" />
+    </Key>
+    <Property Name="crisisID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="crisisLevel" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="efDetail">
+    <Key>
+      <PropertyRef Name="caseID" />
+      <PropertyRef Name="dateTime" />
+    </Key>
+    <Property Name="caseID" Type="int" Nullable="false" />
+    <Property Name="dateTime" Type="datetime" Nullable="false" />
+    <Property Name="action" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="situationDetail">
+    <Key>
+      <PropertyRef Name="recordID" />
+    </Key>
+    <Property Name="recordID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="caseID" Type="int" Nullable="false" />
+    <Property Name="crisisID" Type="int" Nullable="false" />
+    <Property Name="actionToDo" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="dateTime" Type="datetime" Nullable="false" />
+    <Property Name="casualties" Type="int" Nullable="false" />
+    <Property Name="damagedProperties" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="unitsDeployed" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="remarks" Type="nvarchar(max)" />
+    <Property Name="lat" Type="float" Nullable="false" />
+    <Property Name="lng" Type="float" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'cmoDB.dbo.units' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="units">
+    <Key>
+      <PropertyRef Name="unitName" />
+    </Key>
+    <Property Name="unitName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="userDetail">
+    <Key>
+      <PropertyRef Name="name" />
+    </Key>
+    <Property Name="email" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="rank" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_efDetail_caseDetail">
+    <End Role="caseDetail" Type="Self.caseDetail" Multiplicity="1" />
+    <End Role="efDetail" Type="Self.efDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="caseDetail">
+        <PropertyRef Name="caseID" />
+      </Principal>
+      <Dependent Role="efDetail">
+        <PropertyRef Name="caseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_situationDetail_caseDetail">
+    <End Role="caseDetail" Type="Self.caseDetail" Multiplicity="1" />
+    <End Role="situationDetail" Type="Self.situationDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="caseDetail">
+        <PropertyRef Name="caseID" />
+      </Principal>
+      <Dependent Role="situationDetail">
+        <PropertyRef Name="caseID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_situationDetail_crisisLevel">
+    <End Role="crisisLevel" Type="Self.crisisLevel" Multiplicity="1" />
+    <End Role="situationDetail" Type="Self.situationDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="crisisLevel">
+        <PropertyRef Name="crisisID" />
+      </Principal>
+      <Dependent Role="situationDetail">
+        <PropertyRef Name="crisisID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="cmoDBModelStoreContainer">
+    <EntitySet Name="caseDetail" EntityType="Self.caseDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="crisisLevel" EntityType="Self.crisisLevel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="efDetail" EntityType="Self.efDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="situationDetail" EntityType="Self.situationDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="userDetail" EntityType="Self.userDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="units" EntityType="Self.units" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [units].[unitName] AS [unitName]
+    FROM [dbo].[units] AS [units]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_efDetail_caseDetail" Association="Self.FK_efDetail_caseDetail">
+      <End Role="caseDetail" EntitySet="caseDetail" />
+      <End Role="efDetail" EntitySet="efDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_situationDetail_caseDetail" Association="Self.FK_situationDetail_caseDetail">
+      <End Role="caseDetail" EntitySet="caseDetail" />
+      <End Role="situationDetail" EntitySet="situationDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_situationDetail_crisisLevel" Association="Self.FK_situationDetail_crisisLevel">
+      <End Role="crisisLevel" EntitySet="crisisLevel" />
+      <End Role="situationDetail" EntitySet="situationDetail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

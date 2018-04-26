@@ -1,0 +1,173 @@
+﻿@model CMO101.Models.situationDetail
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="wrapper">
+    <div class="sidebar" data-color="blue" data-image="../assets/img/sidebar-1.jpg">
+
+        <div class="logo">
+            <a href="" class="simple-text">
+                <table border="0">
+                    <tr>
+                        <td><img src="http://i67.tinypic.com/2sbogv9.png" /></td>
+                        <td style="text-align:left"> Crisis <br />Management<br />Office</td>
+                    </tr>
+                </table>
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+
+            <ul class="nav">
+                <li>@Html.ActionLink("Home", "Home", "Home", new { area = "" }, null)</li>
+                <li class="active">@Html.ActionLink("Cases", "Index", "caseDetails", new { area = "" }, null)</li>
+              
+                @if (Session["rank"].Equals("Admin"))
+                {
+                    <li>@Html.ActionLink("Users", "Index", "userDetails", new { area = "" }, null)</li>}
+            </ul>
+
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="navbar navbar-transparent navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">person</i>
+                                @HttpContext.Current.Session["name"].ToString()
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Logout", "logout", "Home")</li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="container-fluid">
+
+
+
+                <div class="row">
+
+                    <div class="col-lg col-md-12">
+                        <div class="card">
+                            <div class="card-header" data-background-color="blue">
+                                <h4 class="title">Update History</h4>
+                                <p class="category">Update history here</p>
+                            </div>
+                            <div class="card-content">
+
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                    
+                                <div class="form-horizontal">
+                                    <h4>@Html.Label("Case ID: " + Model.caseID, htmlAttributes: new { @style = "color:#000;font-size:15px;" })</h4>
+                                    <hr />
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(model => model.recordID)
+
+                                    <table style="width:60%; margin-left:1%;">
+                                        <tr>
+                                            <td width="15%;">Crisis Level:</td>
+                                            <td>
+                                                @Html.DropDownList("crisisID", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.crisisID, "", new { @class = "text-danger" })
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Action To Do:</td>
+                                            <td>
+                                                @Html.EditorFor(model => model.actionToDo, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.actionToDo, "", new { @class = "text-danger" })
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Casualties:</td>
+                                            <td>
+                                                @Html.EditorFor(model => model.casualties, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.casualties, "", new { @class = "text-danger" })
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Damaged Properties:</td>
+                                            <td>
+                                                @Html.EditorFor(model => model.damagedProperties, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.damagedProperties, "", new { @class = "text-danger" })
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Units Deployed:</td>
+                                            <td>
+                                                @Html.EditorFor(model => model.unitsDeployed, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.unitsDeployed, "", new { @class = "text-danger" })
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Status:</td>
+                                            <td>
+                                                @Html.EditorFor(model => model.remarks, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.remarks, "", new { @class = "text-danger" })
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <input type="submit" value="Save" class="btn btn-primary" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="form-group" style="visibility:hidden;">
+                                        <div class="col-md-10" >
+                                            @Html.TextBoxFor(model => model.dateTime, DateTime.Now.ToString(), new { @style = "border: none;" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" style="visibility:hidden;">
+                                        @Html.LabelFor(model => model.caseID, "Case ID", htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("caseID", null, htmlAttributes: new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.caseID, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+

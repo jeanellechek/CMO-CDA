@@ -1,0 +1,289 @@
+﻿@using CMO101.Models
+@model dynamic
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .panel-group .panel {
+        border-radius: 0;
+        box-shadow: none;
+        border-color: #EEEEEE;
+        width:100%;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 0;
+        border-radius: 0;
+        color: #212121;
+        background-color: #FAFAFA;
+        border-color: #EEEEEE;
+    }
+
+    .panel-title {
+        font-size: 14px;
+    }
+
+        .panel-title > a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+        }
+
+    .more-less {
+        float: right;
+        color: #212121;
+    }
+
+    .panel-default > .panel-heading + .panel-collapse > .panel-body {
+        border-top-color: #EEEEEE;
+    }
+
+    /* ----- v CAN BE DELETED v ----- */
+
+
+
+</style>
+<script>
+    function toggleIcon(e) {
+        $(e.target)
+            .prev('.panel-heading')
+            .find(".more-less")
+            .toggleClass('glyphicon-plus glyphicon-minus');
+    }
+    $('.panel-group').on('hidden.bs.collapse', toggleIcon);
+    $('.panel-group').on('shown.bs.collapse', toggleIcon);
+</script>
+<script src="~/Content/Scripts/demo.js"></script>
+@if (Session["success"].Equals(1)) //(firstAccess) success=1, fail=None
+{
+    <script>demo.showNotification('top', 'right', 'Changes successful', 'success', 'thumb_up');</script>}
+else if (Session["success"].Equals("None") && Session["firstAccess"].Equals(1)) //(firstAccess) success=1, fail=None
+{
+    <script>demo.showNotification('top', 'right', 'Changes failed', 'danger', 'thumb_down');</script>}
+
+
+@{ //reset to default
+    Session["firstAccess"] = "None";
+    Session["success"] = "None";
+}
+
+<div class="wrapper">
+    <div class="sidebar" data-color="blue" data-image="../assets/img/sidebar-1.jpg">
+
+        <div class="logo">
+            <a href="" class="simple-text">
+                <table border="0">
+                    <tr>
+                        <td><img src="http://i67.tinypic.com/2sbogv9.png" /></td>
+                        <td style="text-align:left"> Crisis <br />Management<br />Office</td>
+                    </tr>
+                </table>
+            </a>
+        </div>
+        <div class="sidebar-wrapper">
+
+            <ul class="nav">
+                <li>@Html.ActionLink("Home", "Home", "Home", new { area = "" }, null)</li>
+                <li class="active">@Html.ActionLink("Cases", "Index", "caseDetails", new { area = "" }, null)</li>
+
+                @if (Session["rank"].Equals("Admin"))
+                {
+                    <li>@Html.ActionLink("Users", "Index", "userDetails", new { area = "" }, null)</li>}
+            </ul>
+
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="navbar navbar-transparent navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">person</i>
+                                @HttpContext.Current.Session["name"].ToString()
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Logout", "logout", "Home")</li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg col-md-12">
+                        <div class="card">
+                            <div class="card-header" data-background-color="blue">
+                                <h4 class="title">Case Details</h4>
+                                <p class="category">View case details here</p>
+                            </div>
+                            <div class="card-content">
+
+                                @foreach (caseDetail c in Model.caseDetails)
+    {
+                            <table class="card-content table-responsive" style="width:50%;">
+                                <tr>
+                                    <td style="font-weight:bold; width:30%;">Case ID:</td>
+                                    <td>@c.caseID</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="font-weight:bold;">Location:</td>
+                                    <td>@c.location</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="font-weight:bold;">Description:</td>
+                                    <td>@c.description</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="font-weight:bold;">Informant Name:</td>
+                                    <td>@c.informantName</td>
+                                </tr>
+
+                                <tr>
+                                    <td style="font-weight:bold;">Informant Phone:</td>
+                                    <td>@c.informantPhone</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:bold;">Case Status</td>
+                                    <td style="color:red; font-weight:bold;">@c.caseStatus</td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <input type="button" value="Edit Case Details" class="btn btn-primary" onclick="location.href='@Url.Action("Edit", "caseDetails",new {id=c.caseID,getPMODetails=1 })'" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <div style="width:100%;">
+
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <i class="more-less glyphicon glyphicon-plus"></i>
+                                                    Advanced Options
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                            <div class="panel-body">
+                                                <table style="width:100%;">
+                                                    <tr>
+                                                        <td style="text-align:center;">
+                                                            <input type="button" value="Get PMO Updates" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "situationDetails",new {id=c.caseID,getPMODetails=1 })'" />
+                                                            <input type="button" value="Get EF Updates" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "situationDetails", new { id = c.caseID,getEFDetails=1 })'" />
+                                                            <input type="button" value="Generate Report to PMO" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "situationDetails", new { id = c.caseID,getFinalReport=1 })'" />
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-lg col-md-12">
+                        <div class="card">
+                            <div class="card-header" data-background-color="blue">
+                                <h4 class="title">History</h4>
+                                <p class="category">View case history here</p>
+                            </div>
+                            <div class="card-content">
+
+
+                                @if (Session["rank"].Equals("Admin") || Session["rank"].Equals("General") || Session["rank"].Equals("Officer"))
+                                {
+                                    @Html.ActionLink("Update History", "Update", "situationDetails", new { id = Session["editCase"] }, null)
+                                }
+                                <table class="table">
+                                    <tr>
+                                        <th>Date Time</th>
+                                        <th>Action To Do</th>
+                                        <th>Casualties</th>
+                                        <th>Damaged Properties</th>
+                                        <th>Units Deployed</th>
+                                        <th>Status</th>
+                                        <th>Crisis Level</th>
+                                        <th></th>
+                                    </tr>
+
+                                    @foreach (situationDetail p in Model.situationDetails)
+                                    {
+                                        <tr>
+                                            <td>@p.dateTime.ToString("dd-MMM-yy hh:mm:ss tt")</td>
+                                            <td width="20%;">@p.actionToDo</td>
+
+                                            <td>@p.casualties</td>
+                                            <td>@p.damagedProperties</td>
+                                            <td>@p.unitsDeployed</td>
+                                            <td width="15%;">@p.remarks</td>
+                                            @if (p.crisisID == 1)
+                                            {
+                                                <td> Monkey</td>}
+                                            else if (p.crisisID == 2)
+                                            {
+                                                <td> Wolf</td>}
+                                            else if (p.crisisID == 3)
+                                            {
+                                                <td> Tiger</td>}
+                                            else if (p.crisisID == 4)
+                                            {
+                                                <td>Demon</td>}
+                                            else if (p.crisisID == 5)
+                                            {
+                                                <td>Dragon</td>}
+                                            <td>
+                                                @if (Session["rank"].Equals("Admin") || Session["rank"].Equals("General"))
+                                                {@Html.ActionLink("Edit", "Edit", "situationDetails", new { id = p.recordID }, null)
+                                            }
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+

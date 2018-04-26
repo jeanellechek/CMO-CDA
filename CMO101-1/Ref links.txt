@@ -1,0 +1,17 @@
+Reference links
+
+
+https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/introduction/creating-a-connection-string
+https://docs.microsoft.com/en-us/aspnet/core/client-side/bootstrap
+https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/database-first-development/generating-views
+http://www.c-sharpcorner.com/article/entity-framework-with-microsoft-azure-sql/
+https://docs.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-dotnet-sqldatabase
+http://www.c-sharpcorner.com/article/simple-login-application-using-Asp-Net-mvc/
+
+
+*If cannot render scripts, just remove the scripts below.
+
+Azure SQL Database 
+Administrator username : sqlcmo
+Administrator Password: CMOAdmin_01
+db server: tcp:cmoserver.database.windows.net,1433;

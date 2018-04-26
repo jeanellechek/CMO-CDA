@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="cmoDBModelStoreContainer" CdmEntityContainer="cmoAzure">
+    <EntitySetMapping Name="caseDetails">
+      <EntityTypeMapping TypeName="cmoDBModel.caseDetail">
+        <MappingFragment StoreEntitySet="caseDetail">
+          <ScalarProperty Name="caseStatus" ColumnName="caseStatus" />
+          <ScalarProperty Name="initialLng" ColumnName="initialLng" />
+          <ScalarProperty Name="initialLat" ColumnName="initialLat" />
+          <ScalarProperty Name="crisisLevel" ColumnName="crisisLevel" />
+          <ScalarProperty Name="caseID" ColumnName="caseID" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="informantName" ColumnName="informantName" />
+          <ScalarProperty Name="informantPhone" ColumnName="informantPhone" />
+          <ScalarProperty Name="dateTime" ColumnName="dateTime" />
+          <ScalarProperty Name="location" ColumnName="location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crisisLevels">
+      <EntityTypeMapping TypeName="cmoDBModel.crisisLevel">
+        <MappingFragment StoreEntitySet="crisisLevel">
+          <ScalarProperty Name="crisisID" ColumnName="crisisID" />
+          <ScalarProperty Name="crisisLevel1" ColumnName="crisisLevel" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="efDetails">
+      <EntityTypeMapping TypeName="cmoDBModel.efDetail">
+        <MappingFragment StoreEntitySet="efDetail">
+          <ScalarProperty Name="caseID" ColumnName="caseID" />
+          <ScalarProperty Name="dateTime" ColumnName="dateTime" />
+          <ScalarProperty Name="action" ColumnName="action" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="situationDetails">
+      <EntityTypeMapping TypeName="cmoDBModel.situationDetail">
+        <MappingFragment StoreEntitySet="situationDetail">
+          <ScalarProperty Name="lng" ColumnName="lng" />
+          <ScalarProperty Name="lat" ColumnName="lat" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="recordID" ColumnName="recordID" />
+          <ScalarProperty Name="caseID" ColumnName="caseID" />
+          <ScalarProperty Name="crisisID" ColumnName="crisisID" />
+          <ScalarProperty Name="actionToDo" ColumnName="actionToDo" />
+          <ScalarProperty Name="dateTime" ColumnName="dateTime" />
+          <ScalarProperty Name="casualties" ColumnName="casualties" />
+          <ScalarProperty Name="damagedProperties" ColumnName="damagedProperties" />
+          <ScalarProperty Name="unitsDeployed" ColumnName="unitsDeployed" />
+          <ScalarProperty Name="remarks" ColumnName="remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="userDetails">
+      <EntityTypeMapping TypeName="cmoDBModel.userDetail">
+        <MappingFragment StoreEntitySet="userDetail">
+          <ScalarProperty Name="rank" ColumnName="rank" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
